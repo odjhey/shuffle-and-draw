@@ -34,6 +34,7 @@ export const MainPage = observer(() => {
 
       <div>
         <button
+          className="btn"
           onClick={() => {
             store.shuffle();
           }}
@@ -41,6 +42,7 @@ export const MainPage = observer(() => {
           shuffle
         </button>
         <button
+          className="btn btn-primary"
           onClick={() => {
             store.draw();
           }}
@@ -48,6 +50,7 @@ export const MainPage = observer(() => {
           draw
         </button>
         <button
+          className="btn"
           onClick={() => {
             undoManager.canUndo && undoManager.undo();
           }}
@@ -55,6 +58,7 @@ export const MainPage = observer(() => {
           undo
         </button>
         <button
+          className="btn btn-error"
           onClick={() => {
             store.reset();
           }}
@@ -62,6 +66,7 @@ export const MainPage = observer(() => {
           reset
         </button>
         <button
+          className="btn"
           onClick={() => {
             store.setCards("MUNDO");
           }}
@@ -69,6 +74,7 @@ export const MainPage = observer(() => {
           mundo
         </button>
         <button
+          className="btn"
           onClick={() => {
             store.setCards("SOUL_SUCKER");
           }}
@@ -76,6 +82,7 @@ export const MainPage = observer(() => {
           soul sucker
         </button>
         <button
+          className="btn"
           onClick={() => {
             store.setCards("CHEF");
           }}

@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
 import { store } from "./store/deck";
 import { RootStoreProvider } from "./store/utils";
 import MainPage from "./MainPage";

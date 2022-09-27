@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PlayerPlay, Eye } from "tabler-icons-react";
 
 export const CardHand = ({
   description,
@@ -9,7 +10,11 @@ export const CardHand = ({
   play: any;
   show: boolean;
 }) => {
-  const [viz, setViz] = useState(show);
+  const [peek, setPeek] = useState(show);
+
+  useEffect(() => {
+    setPeek(show);
+  }, [show]);
 
   return (
     <div
@@ -23,13 +28,20 @@ export const CardHand = ({
         justifyContent: "center",
       }}
     >
-      {viz ? (
+      {show || peek ? (
         <>
           {description}
-          <button onClick={play}>{">"}</button>
+          <button onClick={play}>
+            <PlayerPlay></PlayerPlay>
+          </button>
         </>
       ) : (
-        "---"
+        <>
+          ---
+          <button onClick={() => setPeek(true)}>
+            <Eye></Eye>
+          </button>
+        </>
       )}
     </div>
   );

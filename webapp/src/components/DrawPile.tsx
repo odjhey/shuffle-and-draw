@@ -15,7 +15,7 @@ export const DrawPile = observer(() => {
         store.drawPile.map((c) => {
           return c.value;
         })}
-      <button onClick={() => setViz((prev) => !prev)}>
+      <button className="btn" onClick={() => setViz((prev) => !prev)}>
         {viz ? "hide" : "show"}
       </button>
     </div>
