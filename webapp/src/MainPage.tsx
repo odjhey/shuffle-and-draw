@@ -5,6 +5,7 @@ import DrawPile from "./components/DrawPile";
 import Graveyard from "./components/Graveyard";
 import Hand from "./components/Hand";
 import Board from "./components/Board";
+import Customs from "./components/Customs";
 
 export const MainPage = observer(() => {
   const store = useStores();
@@ -26,7 +27,10 @@ export const MainPage = observer(() => {
         <Graveyard></Graveyard>
       </div>
 
-      <Hand></Hand>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Hand></Hand>
+        <Customs></Customs>
+      </div>
 
       <div>
         <button

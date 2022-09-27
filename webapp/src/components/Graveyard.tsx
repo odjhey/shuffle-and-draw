@@ -16,7 +16,7 @@ export const Graveyard = observer(() => {
           return c.value;
         })}
       <button onClick={() => setViz((prev) => !prev)}>
-        {viz ? "hide" : "peek"}
+        {viz ? "hide" : "show"}
       </button>
     </div>
   );

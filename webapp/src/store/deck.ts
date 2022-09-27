@@ -1,4 +1,4 @@
-import { types, Instance, onSnapshot } from "mobx-state-tree";
+import { types, Instance, onSnapshot, destroy } from "mobx-state-tree";
 import { UndoManager } from "mst-middlewares";
 import { draw, makeShuffler } from "../deck/deck";
 import * as Mundo from "./mundo";
@@ -14,12 +14,19 @@ const CardModel = types.model("Card", {
 const DeckModel = types
   .model("Deck", {
     cards: types.array(CardModel),
+    customs: types.array(CardModel),
     history: types.optional(UndoManager, {}),
 
     drawPile: types.array(types.reference(CardModel)),
-    hand: types.array(types.reference(CardModel)),
-    board: types.array(types.reference(CardModel)),
-    graveyard: types.array(types.reference(CardModel)),
+    hand: types.array(
+      types.reference(CardModel, { onInvalidated: (ev) => ev.removeRef() })
+    ),
+    board: types.array(
+      types.reference(CardModel, { onInvalidated: (ev) => ev.removeRef() })
+    ),
+    graveyard: types.array(
+      types.reference(CardModel, { onInvalidated: (ev) => ev.removeRef() })
+    ),
   })
   .actions((self) => {
     // you could create your undoManger anywhere but before your first needed action within the undoManager
@@ -72,11 +79,36 @@ const DeckModel = types
       },
 
       play(cardId: string) {
-        const idx = self.hand.findIndex((v) => v.id === cardId);
+        const handIdx = self.hand.findIndex((v) => v.id === cardId);
+        if (handIdx >= 0) {
+          self.hand.splice(handIdx, 1);
+        }
 
-        self.hand.splice(idx, 1);
+        const customIdx = self.customs.findIndex((v) => v.id === cardId);
+        if (customIdx >= 0) {
+          // self.customs.splice(customIdx, 1);
+        }
+
+        console.log("pasdflj", cardId, handIdx, customIdx);
         self.board.push(cardId);
       },
+
+      addCustom(card: { id: string; value: string }) {
+        self.customs.push(CardModel.create(card));
+      },
+      removeCustom(cardId: string) {
+        const match = self.customs.find((c) => c.id === cardId);
+        if (match) {
+          destroy(match);
+        }
+      },
+      addToHand(cardId: string) {
+        const customIdx = self.customs.findIndex((v) => v.id === cardId);
+        if (customIdx >= 0) {
+          self.hand.push(cardId);
+        }
+      },
+
       discard(cardId: string) {
         const handIdx = self.hand.findIndex((v) => v.id === cardId);
         if (handIdx >= 0) {
@@ -110,6 +142,8 @@ if (localStorage.getItem("asdf")) {
     board: [],
     hand: [],
     graveyard: [],
+    customs: [],
+    drawPile: [],
   });
 }
 

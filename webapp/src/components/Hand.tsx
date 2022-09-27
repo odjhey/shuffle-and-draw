@@ -12,18 +12,18 @@ export const Hand = observer(() => {
     <div className="hand">
       <h4>hand</h4>
       <div style={{ display: "flex" }}>
-        {viz &&
-          store.hand.map((c) => {
-            return (
-              <CardHand
-                key={c.id}
-                description={c.value}
-                play={() => {
-                  store.play(c.id);
-                }}
-              ></CardHand>
-            );
-          })}
+        {store.hand.map((c) => {
+          return (
+            <CardHand
+              key={c.id}
+              description={c.value}
+              play={() => {
+                store.play(c.id);
+              }}
+              show={viz}
+            ></CardHand>
+          );
+        })}
       </div>
       <button onClick={() => setViz((prev) => !prev)}>
         {viz ? "hide" : "show"}

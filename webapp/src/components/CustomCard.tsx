@@ -1,16 +1,14 @@
-import { useState } from "react";
-
-export const CardHand = ({
+export const CustomCard = ({
   description,
   play,
-  show = true,
+  remove,
+  addToHand,
 }: {
   description: string;
   play: any;
-  show: boolean;
+  remove: any;
+  addToHand: any;
 }) => {
-  const [viz, setViz] = useState(show);
-
   return (
     <div
       style={{
@@ -23,16 +21,13 @@ export const CardHand = ({
         justifyContent: "center",
       }}
     >
-      {viz ? (
-        <>
-          {description}
-          <button onClick={play}>{">"}</button>
-        </>
-      ) : (
-        "---"
-      )}
+      {description}
+
+      <button onClick={play}>{">"}</button>
+      <button onClick={addToHand}>{"h"}</button>
+      <button onClick={remove}>{"x"}</button>
     </div>
   );
 };
 
-export default CardHand;
+export default CustomCard;
