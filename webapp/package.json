@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cuid": "^2.1.8",
     "mobx": "^6.6.2",
     "mobx-react": "^7.5.3",
     "mobx-state-tree": "^5.1.6",
