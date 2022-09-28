@@ -6,10 +6,10 @@ export const Board = observer(() => {
   const store = useStores();
 
   return (
-    <div className="board" style={{ height: "40vh" }}>
+    <div className="bg-primary p-1">
       <h4>Board</h4>
-      <div style={{ display: "flex" }}>
-        {store.board.map((c) => {
+      <div className="flex gap-4">
+        {store.board.cards.map((c) => {
           return (
             <CardInPlay
               key={c.id}

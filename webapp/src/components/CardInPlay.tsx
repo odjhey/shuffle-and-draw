@@ -1,3 +1,5 @@
+import { X } from "tabler-icons-react";
+
 export const CardInPlay = ({
   description,
   discard,
@@ -6,20 +8,12 @@ export const CardInPlay = ({
   discard: any;
 }) => {
   return (
-    <div
-      style={{
-        border: "solid 1px orange",
-        height: "150px",
-        width: "80px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {description}
+    <div className="w-20 h-32 border border-black bg-gray-800 flex flex-col justify-between">
+      <p className="break-words overflow-hidden">{description}</p>
 
-      <button onClick={discard}>{"x"}</button>
+      <button onClick={discard}>
+        <X></X>
+      </button>
     </div>
   );
 };

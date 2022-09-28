@@ -17,23 +17,15 @@ export const CardHand = ({
   }, [show]);
 
   return (
-    <div
-      style={{
-        border: "solid 1px pink",
-        height: "150px",
-        width: "80px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className="h-32 w-20 border border-red-600 flex flex-col justify-between ">
       {show || peek ? (
         <>
-          {description}
-          <button onClick={play}>
-            <PlayerPlay></PlayerPlay>
-          </button>
+          <p className="text-ellipsis overflow-hidden ">{description}</p>
+          <div className="relative bottom-0">
+            <button onClick={play}>
+              <PlayerPlay></PlayerPlay>
+            </button>
+          </div>
         </>
       ) : (
         <>

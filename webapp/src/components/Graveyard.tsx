@@ -8,14 +8,14 @@ export const Graveyard = observer(() => {
   const [viz, setViz] = useState(false);
 
   return (
-    <div className="graveyard">
-      <h3>Graveyard ({store.graveyard.length})</h3>
+    <div>
+      <h3>Graveyard ({store.graveyard.cards.length})</h3>
 
       {viz &&
-        store.graveyard.map((c) => {
+        store.graveyard.cards.map((c) => {
           return c.value;
         })}
-      <button onClick={() => setViz((prev) => !prev)}>
+      <button className="btn btn-sm" onClick={() => setViz((prev) => !prev)}>
         {viz ? "hide" : "show"}
       </button>
     </div>

@@ -9,10 +9,10 @@ export const Hand = observer(() => {
   const [viz, setViz] = useState(true);
 
   return (
-    <div className="hand">
+    <div>
       <h4>hand</h4>
-      <div style={{ display: "flex" }}>
-        {store.hand.map((c) => {
+      <div className="flex gap-4">
+        {store.hand.cards.map((c) => {
           return (
             <CardHand
               key={c.id}

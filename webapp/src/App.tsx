@@ -5,9 +5,7 @@ import MainPage from "./MainPage";
 function App() {
   return (
     <RootStoreProvider value={store}>
-      <div className="App">
-        <MainPage></MainPage>
-      </div>
+      <MainPage></MainPage>
     </RootStoreProvider>
   );
 }

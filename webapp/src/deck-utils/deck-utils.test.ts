@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { makeShuffler, draw } from "./deck";
+import { makeShuffler, draw } from "./deck-utils";
 import inv from "tiny-invariant";
 
 describe("suite", () => {

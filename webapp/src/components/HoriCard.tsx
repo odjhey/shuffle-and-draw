@@ -1,6 +1,6 @@
 import CardControls from "./CardControls";
 
-export const CustomCard = ({
+export const HoriCard = ({
   description,
   cardId,
 }: {
@@ -11,9 +11,9 @@ export const CustomCard = ({
     <div className="border border-yellow-600 flex justify-between gap-2">
       <div>{description}</div>
 
-      <CardControls cardId={cardId} showObliterate={true} />
+      <CardControls cardId={cardId} />
     </div>
   );
 };
 
-export default CustomCard;
+export default HoriCard;

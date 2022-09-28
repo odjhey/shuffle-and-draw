@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 import { useState } from "react";
 import { useStores } from "../store/utils";
+import HoriCard from "./HoriCard";
 
 export const DrawPile = observer(() => {
   const store = useStores();
@@ -8,14 +9,16 @@ export const DrawPile = observer(() => {
   const [viz, setViz] = useState(false);
 
   return (
-    <div className="deck">
-      <h3>Drawpile ({store.drawPile.length})</h3>
+    <div>
+      <h3>Drawpile ({store.drawPile.cards.length})</h3>
 
       {viz &&
-        store.drawPile.map((c) => {
-          return c.value;
+        store.drawPile.cards.map((c) => {
+          return (
+            <HoriCard key={c.id} description={c.value} cardId={c.id}></HoriCard>
+          );
         })}
-      <button className="btn" onClick={() => setViz((prev) => !prev)}>
+      <button className="btn btn-sm" onClick={() => setViz((prev) => !prev)}>
         {viz ? "hide" : "show"}
       </button>
     </div>

@@ -11,41 +11,34 @@ export const Customs = observer(() => {
   const [customDesc, setCustomDesc] = useState("");
 
   return (
-    <div className="hand">
+    <div className="flex flex-col gap-1">
       <h4>Customs</h4>
-      <div style={{ display: "flex" }}>
+      <div className="flex flex-col gap-1">
         {viz &&
           store.customs.map((c) => {
             return (
               <CustomCard
                 key={c.id}
                 description={c.value}
-                play={() => {
-                  store.play(c.id);
-                }}
-                addToHand={() => {
-                  store.addToHand(c.id);
-                }}
-                remove={() => {
-                  store.removeCustom(c.id);
-                }}
+                cardId={c.id}
               ></CustomCard>
             );
           })}
       </div>
 
       {viz && (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <button
-            onClick={() => store.addCustom({ id: cuid(), value: customDesc })}
-          >
-            add
-          </button>
+        <div className="flex">
           <input
             type="text"
             value={customDesc}
             onChange={(e) => setCustomDesc(e.target.value)}
           />
+          <button
+            className="btn btn-xs"
+            onClick={() => store.addCustom({ id: cuid(), value: customDesc })}
+          >
+            add
+          </button>
         </div>
       )}
 

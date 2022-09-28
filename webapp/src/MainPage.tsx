@@ -10,87 +10,97 @@ import Customs from "./components/Customs";
 export const MainPage = observer(() => {
   const store = useStores();
   return (
-    <>
-      <Board></Board>
+    <div className="container mx-auto h-screen flex flex-col justify-between">
+      <div>
+        <div className="border border-yellow-400">
+          <Board></Board>
+        </div>
 
-      <div
-        style={{
-          display: "flex",
-          border: "1px white solid",
-          flexDirection: "row",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <DrawPile></DrawPile>
-        <Graveyard></Graveyard>
-      </div>
-
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Hand></Hand>
-        <Customs></Customs>
+        <div className="flex gap-10">
+          <DrawPile></DrawPile>
+          <Graveyard></Graveyard>
+          <Customs></Customs>
+        </div>
       </div>
 
       <div>
-        <button
-          className="btn"
-          onClick={() => {
-            store.shuffle();
-          }}
-        >
-          shuffle
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            store.draw();
-          }}
-        >
-          draw
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            undoManager.canUndo && undoManager.undo();
-          }}
-        >
-          undo
-        </button>
-        <button
-          className="btn btn-error"
-          onClick={() => {
-            store.reset();
-          }}
-        >
-          reset
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            store.setCards("MUNDO");
-          }}
-        >
-          mundo
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            store.setCards("SOUL_SUCKER");
-          }}
-        >
-          soul sucker
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            store.setCards("CHEF");
-          }}
-        >
-          chef
-        </button>
+        <div className="flex gap-10">
+          <Hand></Hand>
+        </div>
+        <div className="w-full pb-24">
+          <div className="flex justify-between">
+            <div>
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  store.shuffle();
+                }}
+              >
+                shuffle
+              </button>
+              <button
+                className="btn btn-sm btn-primary"
+                onClick={() => {
+                  store.draw();
+                }}
+              >
+                draw
+              </button>
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  undoManager.canUndo && undoManager.undo();
+                }}
+              >
+                undo
+              </button>
+            </div>
+            <div>
+              <button
+                className="btn btn-sm btn-error"
+                onClick={() => {
+                  store.reset();
+                }}
+              >
+                reset
+              </button>
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  store.setCards("MUNDO");
+                }}
+              >
+                mundo
+              </button>
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  store.setCards("SOUL_SUCKER");
+                }}
+              >
+                soul sucker
+              </button>
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  store.setCards("CHEF");
+                }}
+              >
+                chef
+              </button>
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  store.setCards("EMOKID");
+                }}
+              >
+                emo
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 });
 

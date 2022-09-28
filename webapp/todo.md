@@ -1,0 +1,2 @@
+- add currently playing board, that is cleared after each turn (can clear)
+- reshuffle deck in drawpile when no more )graveyard to drawpile)
