@@ -3,6 +3,6 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/shuffle-and-draw/webapp/dist/",
+  base: "/shuffle-and-draw/",
   plugins: [react()],
 });
