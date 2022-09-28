@@ -2,3 +2,4 @@
 - [x] enable pin to board
 - [x] reshuffle deck in drawpile when no more )graveyard to drawpile)
 - add peek
+- add a page to enable purge of localstore

@@ -31,9 +31,18 @@ export const ProjectorPage = observer(() => {
             </div>
           );
         })}
-        <button className="btn" onClick={() => store.projector.clearAll()}>
-          Clear All
+        <button className="btn" onClick={() => store.projector.clearBoard()}>
+          Clear Board
         </button>
+        <button className="btn" onClick={() => store.projector.clearMessages()}>
+          Clear Logs
+        </button>
+        <div className="fixed border w-3/6 border-purple-500 bottom-0 overflow-auto h-1/6">
+          <h2>messages</h2>
+          {store.projector.vEventMessages().map((m, idx) => (
+            <p key={idx}>{m}</p>
+          ))}
+        </div>
       </div>
     </RootStoreProvider>
   );

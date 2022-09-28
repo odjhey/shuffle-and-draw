@@ -14,9 +14,14 @@ const PlayerModel = types.model("Player", {
   board: PlayerBoard,
 });
 
+const EventModel = types.model("Event", {
+  message: types.string,
+});
+
 export const ProjectorModel = types
   .model("Projector", {
     players: types.array(PlayerModel),
+    events: types.array(EventModel),
   })
   .actions((self) => {
     const client = new W3CWebSocket("ws://192.168.1.46:8000");
@@ -32,12 +37,14 @@ export const ProjectorModel = types
       if (typeof message.data === "string") {
         try {
           const d = JSON.parse(message.data);
-          if (d.player) {
-            console.log(d.player);
+          if (d.type === "PLAYER_BOARD_UPDATE") {
             (self as any).updatePlayer({
               playerId: d.player.playerId,
               newPlayer: d.player,
             });
+          }
+          if (d.type === "EVENT_UPDATE") {
+            (self as any).addMessage(`${d.event.actor}: ${d.event.message}`);
           }
         } catch (e) {
           console.error(e);
@@ -48,8 +55,11 @@ export const ProjectorModel = types
     return {
       afterCreate() {},
 
-      clearAll() {
+      clearBoard() {
         self.players.forEach((p) => destroy(p));
+      },
+      clearMessages() {
+        self.events.forEach((p) => destroy(p));
       },
 
       updatePlayer({
@@ -68,12 +78,19 @@ export const ProjectorModel = types
           self.players.push(newPlayer);
         }
       },
+
+      addMessage(message: string) {
+        self.events.unshift({ message });
+      },
     };
   })
   .views((self) => {
     return {
       vSnap() {
         return getSnapshot(self.players);
+      },
+      vEventMessages() {
+        return self.events.map((e) => e.message);
       },
     };
   });

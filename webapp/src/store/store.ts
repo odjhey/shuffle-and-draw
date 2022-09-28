@@ -1,4 +1,10 @@
-import { types, Instance, onSnapshot, destroy } from "mobx-state-tree";
+import {
+  types,
+  Instance,
+  onSnapshot,
+  destroy,
+  onAction,
+} from "mobx-state-tree";
 import { UndoManager } from "mst-middlewares";
 import { draw, makeShuffler } from "../deck-utils/deck-utils";
 import * as Mundo from "./mundo";
@@ -270,6 +276,7 @@ onSnapshot(store.board, () => {
   store.syncer.sendUpdate(
     JSON.stringify({
       toSubs: "asdf",
+      type: "PLAYER_BOARD_UPDATE",
       player: {
         playerId: store.board.name,
         board: {
@@ -278,4 +285,22 @@ onSnapshot(store.board, () => {
       },
     })
   );
+});
+
+let _disposer = onAction(store, (call) => {
+  console.log(call);
+  const BLACK_LIST: string[] = ["addMessage"];
+
+  if (!BLACK_LIST.includes(call.name)) {
+    store.syncer.sendUpdate(
+      JSON.stringify({
+        toSubs: "asdf",
+        type: "EVENT_UPDATE",
+        event: {
+          actor: store.board.name,
+          message: call.name,
+        },
+      })
+    );
+  }
 });

@@ -59,9 +59,28 @@ wsServer.on("request", function (request) {
         boardClients[userID] = connection;
       }
 
-      if (dataFromClient.toSubs) {
+      if (
+        dataFromClient.toSubs &&
+        dataFromClient.type === "PLAYER_BOARD_UPDATE"
+      ) {
         sendMessageToBoardSubs(
-          JSON.stringify({ m: "Yall subs", player: dataFromClient.player })
+          JSON.stringify({
+            m: "Yall subs",
+            type: "PLAYER_BOARD_UPDATE",
+            timeSent: new Date().toISOString(),
+            player: dataFromClient.player,
+          })
+        );
+      }
+
+      if (dataFromClient.toSubs && dataFromClient.type === "EVENT_UPDATE") {
+        sendMessageToBoardSubs(
+          JSON.stringify({
+            m: "Yall subs",
+            type: "EVENT_UPDATE",
+            timeSent: new Date().toISOString(),
+            event: dataFromClient.event,
+          })
         );
       }
 
