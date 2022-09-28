@@ -1,4 +1,4 @@
-import { destroy, types } from "mobx-state-tree";
+import { destroy, getSnapshot, types } from "mobx-state-tree";
 
 const ProjectedCard = types.model("ProjectedCards", {
   value: types.string,
@@ -50,6 +50,13 @@ export const ProjectorModel = types
         if (newPlayer) {
           self.players.push(newPlayer);
         }
+      },
+    };
+  })
+  .views((self) => {
+    return {
+      vSnap() {
+        return getSnapshot(self.players);
       },
     };
   });
