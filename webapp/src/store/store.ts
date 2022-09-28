@@ -63,9 +63,6 @@ const BoardModel = BucketModel.named("Board")
   .actions((self) => {
     const superRemove = self.remove;
     return {
-      clear() {
-        self.cards = [...self.pins] as any;
-      },
       remove(cardId: string) {
         superRemove(cardId);
         const pinIdx = self.pins.findIndex((p) => p.id === cardId);
@@ -86,6 +83,12 @@ const BoardModel = BucketModel.named("Board")
   })
   .views((self) => {
     return {
+      notPinned() {
+        const unPinned = self.cards.filter(
+          (c) => !self.pins.find((p) => p.id === c.id)
+        );
+        return unPinned;
+      },
       isPinned(cardId: string) {
         const match = self.pins.find((c) => c.id === cardId);
         if (match) {
@@ -180,7 +183,7 @@ const StoreModel = types
       addCustom(card: { id: string; value: string }) {
         self.customs.push(CardModel.create(card));
       },
-      removeCustom(cardId: string) {
+      deleteCustom(cardId: string) {
         const match = self.customs.find((c) => c.id === cardId);
         if (match) {
           destroy(match);
@@ -210,7 +213,8 @@ const StoreModel = types
       },
 
       clearBoard() {
-        self.board.clear();
+        self.board.notPinned().forEach((c) => self.graveyard.add(c.id));
+        self.board.notPinned().forEach((c) => self.board.remove(c.id));
       },
 
       toPile,

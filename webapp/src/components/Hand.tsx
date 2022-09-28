@@ -11,7 +11,7 @@ export const Hand = observer(() => {
   return (
     <div>
       <h4>hand</h4>
-      <div className="flex gap-4 border flex-wrap">
+      <div className="flex gap-4 flex-wrap">
         {store.hand.cards.map((c) => {
           return (
             <CardHand

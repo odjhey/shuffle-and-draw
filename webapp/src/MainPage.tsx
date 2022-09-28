@@ -12,7 +12,7 @@ export const MainPage = observer(() => {
   return (
     <div className="container mx-auto h-screen flex flex-col justify-between">
       <div>
-        <div className="border border-yellow-400">
+        <div className="">
           <Board></Board>
         </div>
 

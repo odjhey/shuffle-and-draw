@@ -1,4 +1,4 @@
-import { PlayCard, PlayerPlay } from "tabler-icons-react";
+import { Cross, HandStop, PlayCard, PlayerPlay } from "tabler-icons-react";
 import { useStores } from "../store/utils";
 
 export const CardControls = ({
@@ -18,16 +18,26 @@ export const CardControls = ({
     <div className="flex gap-1">
       {has("P") && (
         <button onClick={() => store.play(cardId)}>
-          <PlayerPlay></PlayerPlay>
+          <PlayerPlay size={35}></PlayerPlay>
         </button>
       )}
       {has("H") && (
-        <button onClick={() => store.addToHand(cardId)}>{"h"}</button>
+        <button onClick={() => store.addToHand(cardId)}>
+          <HandStop size={20}></HandStop>
+        </button>
       )}
-      {has("G") && <button onClick={() => store.discard(cardId)}>{"g"}</button>}
-      {has("D") && <button onClick={() => store.toPile(cardId)}>{"d"}</button>}
+      {has("G") && (
+        <button onClick={() => store.discard(cardId)}>
+          <Cross size={20}></Cross>
+        </button>
+      )}
+      {has("D") && (
+        <button onClick={() => store.toPile(cardId)}>
+          <PlayCard size={20}></PlayCard>
+        </button>
+      )}
       {has("X") && (
-        <button onClick={() => store.removeCustom(cardId)}>{"x"}</button>
+        <button onClick={() => store.deleteCustom(cardId)}>{"x"}</button>
       )}
     </div>
   );
