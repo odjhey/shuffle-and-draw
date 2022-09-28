@@ -8,7 +8,7 @@ export const Board = observer(() => {
   return (
     <div className="bg-primary p-1">
       <h4>Board</h4>
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         {store.board.cards.map((c) => {
           return (
             <CardInPlay
