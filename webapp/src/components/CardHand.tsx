@@ -18,7 +18,7 @@ export const CardHand = ({
   }, [show]);
 
   return (
-    <div className="h-32 w-20 border border-red-600 flex flex-col justify-between ">
+    <div className="h-32 w-24 border border-red-600 flex flex-col justify-between items-center">
       {show || peek ? (
         <>
           <p className="text-ellipsis overflow-hidden ">{description}</p>
@@ -28,7 +28,6 @@ export const CardHand = ({
         </>
       ) : (
         <>
-          ---
           <button onClick={() => setPeek(true)}>
             <Eye></Eye>
           </button>
