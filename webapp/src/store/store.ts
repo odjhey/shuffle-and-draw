@@ -6,6 +6,7 @@ import * as SoulSucker from "./soul-sucker";
 import * as Chef from "./chef";
 import * as EmoKid from "./emokid";
 import cuid from "cuid";
+import { ProjectorModel } from "./projector";
 
 const CardModel = types.model("Card", {
   id: types.identifier,
@@ -110,6 +111,8 @@ const StoreModel = types
     hand: BucketModel,
     board: BoardModel,
     graveyard: GraveyardModel,
+
+    projector: ProjectorModel,
   })
   .actions((self) => {
     // you could create your undoManger anywhere but before your first needed action within the undoManager
@@ -229,9 +232,11 @@ export const setUndoManager = (targetStore: any) => {
 export let store: RootStore;
 
 if (localStorage.getItem("asdf")) {
+  console.log("using local");
   const storedValue = localStorage.getItem("asdf") as string;
   store = StoreModel.create(JSON.parse(storedValue));
 } else {
+  console.log("initing new fresh store");
   store = StoreModel.create({
     cards: Mundo.cards.map((c) => ({ id: cuid(), value: c })),
     customs: [],
@@ -239,6 +244,7 @@ if (localStorage.getItem("asdf")) {
     hand: { cards: [] },
     graveyard: { cards: [] },
     drawPile: { cards: [] },
+    projector: { players: [] },
   });
 }
 

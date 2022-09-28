@@ -11,13 +11,17 @@
   "dependencies": {
     "cuid": "^2.1.8",
     "daisyui": "^2.31.0",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
     "mobx": "^6.6.2",
     "mobx-react": "^7.5.3",
     "mobx-state-tree": "^5.1.6",
     "mst-middlewares": "^5.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.1",
     "seedrandom": "^3.0.5",
+    "sort-by": "^1.2.0",
     "tabler-icons-react": "^1.55.0",
     "tiny-invariant": "^1.2.0"
   },
