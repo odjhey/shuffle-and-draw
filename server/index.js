@@ -10,6 +10,7 @@ const wsServer = new webSocketServer({
 
 // I'm maintaining all active connections in this object
 const clients = {};
+const boardClients = {};
 
 // This code generates unique userid for everyuser.
 const getUniqueID = () => {
@@ -24,6 +25,13 @@ const sendMessageToAll = (json) => {
   // We are sending the current data to all connected clients
   Object.keys(clients).map((client) => {
     clients[client].sendUTF(json);
+  });
+};
+
+const sendMessageToBoardSubs = (json) => {
+  // We are sending the current data to all connected clients
+  Object.keys(boardClients).map((clientName) => {
+    boardClients[clientName].sendUTF(json);
   });
 };
 
@@ -47,10 +55,20 @@ wsServer.on("request", function (request) {
       const dataFromClient = JSON.parse(message.utf8Data);
       console.log("received: ", dataFromClient);
 
+      if (dataFromClient.subs) {
+        boardClients[userID] = connection;
+      }
+
+      if (dataFromClient.toSubs) {
+        sendMessageToBoardSubs(
+          JSON.stringify({ m: "Yall subs", player: dataFromClient.player })
+        );
+      }
+
       if (dataFromClient.toAll) {
         sendMessageToAll(JSON.stringify({ m: "To ALLL this" }));
       } else {
-        connection.sendUTF(JSON.stringify({ me: "ACK" }));
+        // connection.sendUTF(JSON.stringify({ me: "ACK" }));
       }
     }
   });
@@ -59,5 +77,6 @@ wsServer.on("request", function (request) {
   connection.on("close", function (connection) {
     console.log(new Date() + " Peer " + userID + " disconnected.");
     delete clients[userID];
+    delete boardClients[userID];
   });
 });

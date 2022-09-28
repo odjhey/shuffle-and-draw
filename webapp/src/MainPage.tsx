@@ -54,6 +54,25 @@ export const MainPage = observer(() => {
               >
                 undo
               </button>
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  store.syncer.sendUpdate(
+                    JSON.stringify({
+                      toSubs: "asdf",
+                      m: "some message",
+                      player: {
+                        playerId: store.board.name,
+                        board: {
+                          cards: store.board.cards,
+                        },
+                      },
+                    })
+                  );
+                }}
+              >
+                sync
+              </button>
             </div>
             <div>
               <button

@@ -7,6 +7,8 @@ import * as Chef from "./chef";
 import * as EmoKid from "./emokid";
 import cuid from "cuid";
 import { ProjectorModel } from "./projector";
+import { SyncerModel } from "./syncer";
+import humanId from "human-id";
 
 const CardModel = types.model("Card", {
   id: types.identifier,
@@ -57,6 +59,7 @@ const GraveyardModel = BucketModel.named("Graveyard").actions((self) => {
 
 const BoardModel = BucketModel.named("Board")
   .props({
+    name: types.optional(types.string, humanId("-")),
     pins: types.array(
       types.reference(CardModel, { onInvalidated: (ev) => ev.removeRef() })
     ),
@@ -112,6 +115,7 @@ const StoreModel = types
     board: BoardModel,
     graveyard: GraveyardModel,
 
+    syncer: SyncerModel,
     projector: ProjectorModel,
   })
   .actions((self) => {
@@ -245,6 +249,7 @@ if (localStorage.getItem("asdf")) {
     graveyard: { cards: [] },
     drawPile: { cards: [] },
     projector: { players: [] },
+    syncer: {},
   });
 }
 
@@ -256,6 +261,21 @@ window.undoManager = undoManager;
 export interface RootStore extends Instance<typeof StoreModel> {}
 
 onSnapshot(store, (snapshot) => {
-  console.log({ snapshot });
+  // console.log({ snapshot });
   localStorage.setItem("asdf", JSON.stringify(snapshot));
+});
+
+onSnapshot(store.board, () => {
+  const b = store.board.cards.map((c) => ({ value: c.value }));
+  store.syncer.sendUpdate(
+    JSON.stringify({
+      toSubs: "asdf",
+      player: {
+        playerId: store.board.name,
+        board: {
+          cards: b,
+        },
+      },
+    })
+  );
 });
