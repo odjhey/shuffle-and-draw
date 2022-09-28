@@ -29,7 +29,13 @@ const BucketModel = types
         self.cards = newCards.map((n) => n.id) as any;
       },
       add(cardId: string) {
-        self.cards.push(cardId);
+        // no dupe
+        const match = self.cards.find((c) => c.id === cardId);
+        if (match) {
+          // skip
+        } else {
+          self.cards.push(cardId);
+        }
       },
       remove(cardId: string) {
         const idx = self.cards.findIndex((v) => v.id === cardId);
@@ -40,21 +46,79 @@ const BucketModel = types
     };
   });
 
-const DeckModel = types
-  .model("Deck", {
+const GraveyardModel = BucketModel.named("Graveyard").actions((self) => {
+  return {
+    clear() {
+      self.cards = [] as any;
+    },
+  };
+});
+
+const BoardModel = BucketModel.named("Board")
+  .props({
+    pins: types.array(
+      types.reference(CardModel, { onInvalidated: (ev) => ev.removeRef() })
+    ),
+  })
+  .actions((self) => {
+    const superRemove = self.remove;
+    return {
+      clear() {
+        self.cards = [...self.pins] as any;
+      },
+      remove(cardId: string) {
+        superRemove(cardId);
+        const pinIdx = self.pins.findIndex((p) => p.id === cardId);
+        if (pinIdx >= 0) {
+          self.pins.splice(pinIdx, 1);
+        }
+      },
+      pin(cardId: string) {
+        // no dupe
+        const match = self.pins.find((c) => c.id === cardId);
+        if (match) {
+          // skip
+        } else {
+          self.pins.push(cardId);
+        }
+      },
+    };
+  })
+  .views((self) => {
+    return {
+      isPinned(cardId: string) {
+        const match = self.pins.find((c) => c.id === cardId);
+        if (match) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+    };
+  });
+
+const StoreModel = types
+  .model("Store", {
     cards: types.array(CardModel),
     customs: types.array(CardModel),
     history: types.optional(UndoManager, {}),
 
     drawPile: BucketModel,
     hand: BucketModel,
-    board: BucketModel,
-    playing: BucketModel,
-    graveyard: BucketModel,
+    board: BoardModel,
+    graveyard: GraveyardModel,
   })
   .actions((self) => {
     // you could create your undoManger anywhere but before your first needed action within the undoManager
     setUndoManager(self);
+    const toPile = (cardId: string) => {
+      // self.drawPile.remove(cardId);
+      self.graveyard.remove(cardId);
+      self.board.remove(cardId);
+      self.hand.remove(cardId);
+
+      self.drawPile.add(cardId);
+    };
 
     return {
       reset() {
@@ -105,13 +169,10 @@ const DeckModel = types
 
       // add to board
       play(cardId: string) {
-        self.hand.remove(cardId);
         self.drawPile.remove(cardId);
-
-        const customIdx = self.customs.findIndex((v) => v.id === cardId);
-        if (customIdx >= 0) {
-          // self.customs.splice(customIdx, 1);
-        }
+        self.graveyard.remove(cardId);
+        // self.board.remove(cardId);
+        self.hand.remove(cardId);
 
         self.board.add(cardId);
       },
@@ -127,15 +188,9 @@ const DeckModel = types
       },
 
       addToHand(cardId: string) {
-        const customIdx = self.customs.findIndex((v) => v.id === cardId);
-        if (customIdx >= 0) {
-          self.hand.add(cardId);
-        }
-
         self.drawPile.remove(cardId);
         self.graveyard.remove(cardId);
         self.board.remove(cardId);
-        self.playing.remove(cardId);
         // self.hand.remove(cardId);
 
         self.hand.add(cardId);
@@ -145,11 +200,20 @@ const DeckModel = types
         self.drawPile.remove(cardId);
         // self.graveyard.remove(cardId);
         self.board.remove(cardId);
-        self.playing.remove(cardId);
         self.hand.remove(cardId);
 
         self.graveyard.add(cardId);
       },
+
+      resuAllToPile() {
+        self.graveyard.cards.map((c) => toPile(c.id));
+      },
+
+      clearBoard() {
+        self.board.clear();
+      },
+
+      toPile,
     };
   });
 
@@ -162,16 +226,15 @@ export let store: RootStore;
 
 if (localStorage.getItem("asdf")) {
   const storedValue = localStorage.getItem("asdf") as string;
-  store = DeckModel.create(JSON.parse(storedValue));
+  store = StoreModel.create(JSON.parse(storedValue));
 } else {
-  store = DeckModel.create({
+  store = StoreModel.create({
     cards: Mundo.cards.map((c) => ({ id: cuid(), value: c })),
     customs: [],
     board: { cards: [] },
     hand: { cards: [] },
     graveyard: { cards: [] },
     drawPile: { cards: [] },
-    playing: { cards: [] },
   });
 }
 
@@ -180,7 +243,7 @@ window.store = store;
 /* @ts-ignore */
 window.undoManager = undoManager;
 
-export interface RootStore extends Instance<typeof DeckModel> {}
+export interface RootStore extends Instance<typeof StoreModel> {}
 
 onSnapshot(store, (snapshot) => {
   console.log({ snapshot });

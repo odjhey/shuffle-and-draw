@@ -1,6 +1,6 @@
 import { useStores } from "./store/utils";
 import { observer } from "mobx-react";
-import { undoManager } from "./store/deck";
+import { undoManager } from "./store/store";
 import DrawPile from "./components/DrawPile";
 import Graveyard from "./components/Graveyard";
 import Hand from "./components/Hand";
@@ -39,7 +39,7 @@ export const MainPage = observer(() => {
                 shuffle
               </button>
               <button
-                className="btn btn-sm btn-primary"
+                className="btn btn-lg btn-primary"
                 onClick={() => {
                   store.draw();
                 }}

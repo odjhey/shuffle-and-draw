@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { RootStore } from "./deck";
+import { RootStore } from "./store";
 
 /**
  * Create a context we can use to

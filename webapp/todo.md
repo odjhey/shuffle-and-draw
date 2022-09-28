@@ -1,2 +1,4 @@
-- add currently playing board, that is cleared after each turn (can clear)
-- reshuffle deck in drawpile when no more )graveyard to drawpile)
+- [x] (replace by pin feat) add currently playing board, that is cleared after each turn (can clear)
+- [x] enable pin to board
+- [x] reshuffle deck in drawpile when no more )graveyard to drawpile)
+- add peek

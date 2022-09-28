@@ -1,4 +1,4 @@
-import { store } from "./store/deck";
+import { store } from "./store/store";
 import { RootStoreProvider } from "./store/utils";
 import MainPage from "./MainPage";
 

@@ -11,21 +11,19 @@ export const Hand = observer(() => {
   return (
     <div>
       <h4>hand</h4>
-      <div className="flex gap-4">
+      <div className="flex gap-4 border flex-wrap">
         {store.hand.cards.map((c) => {
           return (
             <CardHand
               key={c.id}
               description={c.value}
-              play={() => {
-                store.play(c.id);
-              }}
+              cardId={c.id}
               show={viz}
             ></CardHand>
           );
         })}
       </div>
-      <button onClick={() => setViz((prev) => !prev)}>
+      <button className="btn btn-sm" onClick={() => setViz((prev) => !prev)}>
         {viz ? "hide" : "show"}
       </button>
     </div>

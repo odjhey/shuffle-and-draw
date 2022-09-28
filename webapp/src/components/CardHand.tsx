@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { PlayerPlay, Eye } from "tabler-icons-react";
+import CardControls from "./CardControls";
 
 export const CardHand = ({
   description,
-  play,
   show = true,
+  cardId,
 }: {
   description: string;
-  play: any;
+  cardId: string;
   show: boolean;
 }) => {
   const [peek, setPeek] = useState(show);
@@ -22,9 +23,7 @@ export const CardHand = ({
         <>
           <p className="text-ellipsis overflow-hidden ">{description}</p>
           <div className="relative bottom-0">
-            <button onClick={play}>
-              <PlayerPlay></PlayerPlay>
-            </button>
+            <CardControls cardId={cardId} actionList="PDG"></CardControls>
           </div>
         </>
       ) : (

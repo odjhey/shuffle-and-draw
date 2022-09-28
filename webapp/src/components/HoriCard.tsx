@@ -11,7 +11,7 @@ export const HoriCard = ({
     <div className="border border-yellow-600 flex justify-between gap-2">
       <div>{description}</div>
 
-      <CardControls cardId={cardId} />
+      <CardControls cardId={cardId} actionList={"PHG"} />
     </div>
   );
 };

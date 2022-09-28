@@ -17,9 +17,18 @@ export const Board = observer(() => {
               discard={() => {
                 store.discard(c.id);
               }}
+              pinInBoard={() => {
+                store.board.pin(c.id);
+              }}
+              pinned={store.board.isPinned(c.id)}
             ></CardInPlay>
           );
         })}
+      </div>
+      <div className="py-1">
+        <button className="btn btn-sm" onClick={() => store.clearBoard()}>
+          Clear
+        </button>
       </div>
     </div>
   );
