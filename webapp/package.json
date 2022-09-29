@@ -25,7 +25,8 @@
     "sort-by": "^1.2.0",
     "tabler-icons-react": "^1.55.0",
     "tiny-invariant": "^1.2.0",
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.34",
+    "shared": "*"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.7",

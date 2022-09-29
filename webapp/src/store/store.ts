@@ -15,6 +15,7 @@ import cuid from "cuid";
 import { ProjectorModel } from "./projector";
 import { SyncerModel } from "./syncer";
 import humanId from "human-id";
+import * as S from "shared";
 
 const CardModel = types.model("Card", {
   id: types.identifier,
@@ -278,18 +279,14 @@ onSnapshot(store.board, () => {
     value: c.value,
     longDescription: c.longDescription,
   }));
-  store.syncer.sendUpdate(
-    JSON.stringify({
-      toSubs: "asdf",
-      type: "PLAYER_BOARD_UPDATE",
-      player: {
-        playerId: store.board.name,
-        board: {
-          cards: b,
-        },
-      },
-    })
-  );
+  const message = S.Messages.PlayerBoardUpdate.makeMessage({
+    playerId: store.board.name,
+    board: {
+      cards: b,
+    },
+  });
+
+  store.syncer.sendUpdate(S.Messages.PlayerBoardUpdate.serialize(message));
 });
 
 let _disposer = onAction(store, (call) => {

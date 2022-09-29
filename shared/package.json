@@ -1,0 +1,25 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"yarn watch-compile\" \"yarn watch-dev\" \"yarn watch-compile-types\"",
+    "watch-compile": "swc src -w --out-dir dist",
+    "watch-compile-types": "tsc",
+    "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/main.js",
+    "build": "swc src -d dist",
+    "start": "NODE_ENV=production node dist/main.js",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "^1.3.3",
+    "@types/node": "^18.7.23",
+    "chokidar": "^3.5.3",
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.20",
+    "typescript": "^4.8.4"
+  }
+}
