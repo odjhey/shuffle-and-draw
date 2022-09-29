@@ -2,11 +2,13 @@ import { Pin, X } from "tabler-icons-react";
 
 export const CardInPlay = ({
   description,
+  info,
   discard,
   pinInBoard,
   pinned,
 }: {
   description: string;
+  info: string;
   discard: any;
   pinInBoard: any;
   pinned: boolean;

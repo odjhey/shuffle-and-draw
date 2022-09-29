@@ -14,6 +14,7 @@ export const Board = observer(() => {
             <CardInPlay
               key={c.id}
               description={c.value}
+              info={c.longDescription}
               discard={() => {
                 store.discard(c.id);
               }}

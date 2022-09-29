@@ -19,6 +19,7 @@ import humanId from "human-id";
 const CardModel = types.model("Card", {
   id: types.identifier,
   value: types.string,
+  longDescription: types.optional(types.string, ""),
 });
 
 const BucketModel = types
@@ -150,7 +151,8 @@ const StoreModel = types
         if (set === "SOUL_SUCKER") {
           self.cards = SoulSucker.cards.map((c) => ({
             id: cuid(),
-            value: c,
+            value: c.name,
+            longDescription: c.description,
           })) as any;
         }
         if (set === "CHEF") {
@@ -272,7 +274,10 @@ onSnapshot(store, (snapshot) => {
 });
 
 onSnapshot(store.board, () => {
-  const b = store.board.cards.map((c) => ({ value: c.value }));
+  const b = store.board.cards.map((c) => ({
+    value: c.value,
+    longDescription: c.longDescription,
+  }));
   store.syncer.sendUpdate(
     JSON.stringify({
       toSubs: "asdf",

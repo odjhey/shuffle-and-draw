@@ -3,6 +3,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const ProjectedCard = types.model("ProjectedCards", {
   value: types.string,
+  longDescription: types.optional(types.string, ""),
 });
 
 const PlayerBoard = types.model("PlayerBoard", {

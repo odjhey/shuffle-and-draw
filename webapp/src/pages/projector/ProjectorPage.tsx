@@ -2,11 +2,20 @@ import { observer } from "mobx-react";
 import { store } from "../../store/store";
 import { RootStoreProvider } from "../../store/utils";
 
-const CardInPlay = ({ description }: { description: string }) => {
+const CardInPlayProj = ({
+  description,
+  longDescription,
+}: {
+  description: string;
+  longDescription: string;
+}) => {
   return (
     <div className="flex w-36 h-40 border border-black bg-gray-200 flex-col items-center justify-center text-center">
       <p className="text-2xl break-words font-black overflow-hidden text-blue-900">
         {description}
+      </p>
+      <p className="text-sm break-words overflow-hidden text-blue-900">
+        {longDescription}
       </p>
     </div>
   );
@@ -24,7 +33,11 @@ export const ProjectorPage = observer(() => {
               <div className="flex flex-wrap gap-4 justify-center">
                 {p.board.cards.map((c, idx) => {
                   return (
-                    <CardInPlay key={idx} description={c.value}></CardInPlay>
+                    <CardInPlayProj
+                      key={idx}
+                      description={c.value}
+                      longDescription={c.longDescription}
+                    ></CardInPlayProj>
                   );
                 })}
               </div>
